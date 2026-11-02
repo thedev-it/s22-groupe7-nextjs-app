@@ -18,7 +18,7 @@ URL : _à compléter après le premier déploiement_
 | KONGOLO Salem | Backlog | @_pseudo_ |
 | MOUNGABIO Christ-Henoc | Bug bash | @_pseudo_ |
 
-## 🔐 Compte de test
+## Compte de test
 
 | Champ | Valeur |
 |---|---|
@@ -27,11 +27,11 @@ URL : _à compléter après le premier déploiement_
 
 Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
 
-## 🛠️ Stack
+##  Stack
 
 Next.js (App Router), TypeScript, Tailwind CSS, Auth.js, Vercel.
 
-## 🚀 Lancer le projet en local
+## Lancer le projet en local
 
 ```bash
 git clone https://github.com/<proprietaire>/s22-groupe7-app.git
@@ -43,7 +43,7 @@ npm run dev
 
 Variables d'environnement (voir `.env.example`) : `AUTH_SECRET` (générer avec `npx auth secret`).
 
-## 🎨 Rendu
+## Rendu
 
 | Page | Stratégie | Justification |
 |---|---|---|
@@ -51,12 +51,12 @@ Variables d'environnement (voir `.env.example`) : `AUTH_SECRET` (générer avec 
 | _à compléter_ | ISR (revalidate : _x_ s) | _pourquoi_ |
 | _à compléter_ | SSR | _pourquoi_ |
 
-## 📊 Audit Lighthouse
+## Audit Lighthouse
 
 Mobile : Performance _/100_, Accessibility _/100_ (objectif : 80 minimum).
 Capture : `docs/lighthouse.png`
 
-## ✅ Checklist de déploiement
+##  Checklist de déploiement
 
 - [ ] Dépôt importé dans Vercel
 - [ ] Variables d'environnement configurées (`AUTH_SECRET`, …)
@@ -65,7 +65,7 @@ Capture : `docs/lighthouse.png`
 - [ ] Connexion / déconnexion testées en production
 - [ ] URL de production stable reportée dans ce README
 
-## 🤝 Contribuer
+##  Contribuer
 
 - Branches : `feature/...`, `fix/...`, `docs/...`
 - Commits : `feat:`, `fix:`, `docs:`, `chore:`
