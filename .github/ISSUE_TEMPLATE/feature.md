@@ -2,7 +2,7 @@
 name: Feature
 about: Proposer une fonctionnalité pour le backlog
 title: "[FEATURE] "
-labels: feature
+labels: feature, à-faire
 assignees: ''
 ---
 
