@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# S22 – Groupe 7
 
-## Getting Started
+Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : application Next.js avec authentification Auth.js, déployée sur Vercel.
 
-First, run the development server:
+> Sujet de l'application : _à compléter_
+
+## 🔗 Production
+
+URL : _à compléter après le premier déploiement_
+
+## 👥 Équipe
+
+| Membre | Rôle | Compte Git |
+|---|---|---|
+| BITEMO Gilles Brant | Auth, Déploiement, Admin du dépôt | @_pseudo_ |
+| NGASSAI NDONGO Dubien | Stratégies de rendu | @_pseudo_ |
+| INIENGO Alain Justin Ledit | Audit Lighthouse | @_pseudo_ |
+| KONGOLO Salem | Backlog | @_pseudo_ |
+| MOUNGABIO Christ-Henoc | Bug bash | @_pseudo_ |
+
+> Si un membre utilise plusieurs comptes Git, tous doivent être listés ici.
+
+## 🔐 Compte de test
+
+| Champ | Valeur |
+|---|---|
+| Email | _à compléter_ |
+| Mot de passe | _à compléter_ |
+
+Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
+
+## 🛠️ Stack
+
+Next.js (App Router), TypeScript, Tailwind CSS, Auth.js, Vercel.
+
+## 🚀 Lancer le projet en local
 
 ```bash
+git clone https://github.com/<proprietaire>/s22-groupe7-app.git
+cd s22-groupe7-app
+npm install
+cp .env.example .env.local   # puis renseigner les valeurs
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variables d'environnement (voir `.env.example`) : `AUTH_SECRET` (générer avec `npx auth secret`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎨 Rendu
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Page | Stratégie | Justification |
+|---|---|---|
+| _à compléter_ | SSG | _pourquoi_ |
+| _à compléter_ | ISR (revalidate : _x_ s) | _pourquoi_ |
+| _à compléter_ | SSR | _pourquoi_ |
 
-## Learn More
+## 📊 Audit Lighthouse
 
-To learn more about Next.js, take a look at the following resources:
+Mobile : Performance _/100_, Accessibility _/100_ (objectif : 80 minimum).
+Capture : `docs/lighthouse.png`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✅ Checklist de déploiement
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [ ] Dépôt importé dans Vercel
+- [ ] Variables d'environnement configurées (`AUTH_SECRET`, …)
+- [ ] Aucun secret dans le dépôt (`.env*` ignoré, `.env.example` sans valeurs)
+- [ ] Build de production réussi
+- [ ] Connexion / déconnexion testées en production
+- [ ] URL de production stable reportée dans ce README
 
-## Deploy on Vercel
+## 🤝 Contribuer
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Branches : `feature/...`, `fix/...`, `docs/...`
+- Commits : `feat:`, `fix:`, `docs:`, `chore:`
+- Pas de push direct sur `main` : PR obligatoire avec 1 approbation
+- Chaque PR référence son issue (`Closes #12`)
