@@ -10,13 +10,13 @@ URL : _à compléter après le premier déploiement_
 
 ## 👥 Équipe
 
-| Membre | Rôle | Compte Git |
-|---|---|---|
-| BITEMO Gilles Brant | Auth, Déploiement, Admin du dépôt | @thedev-it |
-| NGASSAI NDONGO Dubien | Stratégies de rendu | @dubien321 |
-| INIENGO Alain Justin Ledit | Audit Lighthouse | @Ghostplayer89 |
-| KONGOLO Salem | Backlog | @_pseudo_ |
-| MOUNGABIO Christ-Henoc | Bug bash | @_pseudo_ |
+| Membre                     | Rôle                              | Compte Git     |
+| -------------------------- | --------------------------------- | -------------- |
+| BITEMO Gilles Brant        | Auth, Admin du dépôt              | @thedev-it     |
+| NGASSAI NDONGO Dubien      | Feature                           | @dubien321     |
+| INIENGO Alain Justin Ledit | Deploiment                        | @Ghostplayer89 |
+| KONGOLO Salem              |    ?                              | @_pseudo_      |
+| MOUNGABIO Christ-Henoc     | Rendu & ref                       | @chris-moungabio|
 
 ## Compte de test
 
@@ -27,7 +27,7 @@ URL : _à compléter après le premier déploiement_
 
 Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
 
-##  Stack
+## Stack
 
 Next.js (App Router), TypeScript, Tailwind CSS, Auth.js, Vercel.
 
@@ -56,7 +56,7 @@ Variables d'environnement (voir `.env.example`) : `AUTH_SECRET` (générer avec 
 Mobile : Performance _/100_, Accessibility _/100_ (objectif : 80 minimum).
 Capture : `docs/lighthouse.png`
 
-##  Checklist de déploiement
+## Checklist de déploiement
 
 - [ ] Dépôt importé dans Vercel
 - [ ] Variables d'environnement configurées (`AUTH_SECRET`, …)
@@ -65,7 +65,7 @@ Capture : `docs/lighthouse.png`
 - [ ] Connexion / déconnexion testées en production
 - [ ] URL de production stable reportée dans ce README
 
-##  Contribuer
+## Contribuer
 
 - Branches : `feature/...`, `fix/...`, `docs/...`
 - Commits : `feat:`, `fix:`, `docs:`, `chore:`
