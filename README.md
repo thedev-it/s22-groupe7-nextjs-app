@@ -67,7 +67,8 @@ Capture : `docs/lighthouse.png`
 
 ## Contribuer
 
-- Branches : `feature/...`, `fix/...`, `docs/...`
+- Architecture et règles de travail : voir [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- Branches : `feature/...`, `fix/...`, `docs/...`, `chore/...`
 - Commits : `feat:`, `fix:`, `docs:`, `chore:`
 - Pas de push direct sur `main` : PR obligatoire avec 1 approbation
 - Chaque PR référence son issue (`Closes #12`)
