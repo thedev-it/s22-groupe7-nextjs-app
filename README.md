@@ -1,8 +1,25 @@
-# S22 – Groupe 7
+# Livrable-S22 | Groupe 7
 
 Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : application Next.js avec authentification Auth.js, déployée sur Vercel.
 
-> Sujet de l'application : _à compléter_
+> Sujet de l'application :  **EkoloEvent**
+
+**EkoloEvent** est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
+
+### À qui elle s'adresse
+
+- **Visiteurs** : ils parcourent les événements sans compte, avec des filtres par ville, catégorie et date, et une recherche par mot-clé.
+- **Participants** : une fois connectés, ils choisissent un type de ticket (Standard, VIP...), une quantité, paient (paiement simulé) et retrouvent leurs tickets avec un QR code dans « Mes tickets ».
+- **Organisateurs** : ils créent et gèrent leurs événements, définissent plusieurs types de tickets avec prix et quantité, suivent les ventes et les participants, et valident les tickets à l'entrée grâce au code.
+
+### Fonctionnalités principales
+
+1. Inscription et connexion, avec choix du rôle (visiteur ou organisateur).
+2. Création, modification et suppression d'événements, avec plusieurs types de tickets.
+3. Catalogue public : accueil, liste, fiche détaillée, catégories, filtres et recherche.
+4. Achat de tickets avec contrôle du stock : on ne peut jamais vendre plus de places que prévu, même si deux personnes achètent en même temps.
+5. Tickets avec QR code et contrôle à l'entrée : un ticket déjà utilisé est refusé.
+6. Tableau de bord organisateur : ventes et liste des participants.
 
 ## 🔗 Production
 
@@ -10,13 +27,13 @@ URL : _à compléter après le premier déploiement_
 
 ## 👥 Équipe
 
-| Membre                     | Rôle                              | Compte Git     |
-| -------------------------- | --------------------------------- | -------------- |
-| BITEMO Gilles Brant        | Auth, Admin du dépôt              | @thedev-it     |
-| NGASSAI NDONGO Dubien      | Feature                           | @dubien321     |
-| INIENGO Alain Justin Ledit | Deploiment                        | @Ghostplayer89 |
-| KONGOLO Salem              |    ?                              | @_pseudo_      |
-| MOUNGABIO Christ-Henoc     | Rendu & ref                       | @chris-moungabio|
+| Membre                     | Rôle             | Compte Git       |
+| -------------------------- | ---------------- | ---------------- |
+| BITEMO Gilles Brant        | Auth, repo admin | @thedev-it       |
+| NGASSAI NDONGO Dubien      | Feature          | @dubien321       |
+| INIENGO Alain Justin Ledit | Deploiment       | @Ghostplayer89   |
+| KONGOLO Salem              | ?                | @_pseudo_        |
+| MOUNGABIO Christ-Henoc     | Rendu & ref      | @chris-moungabio |
 
 ## Compte de test
 
