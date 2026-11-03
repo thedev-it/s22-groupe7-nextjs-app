@@ -1,10 +1,12 @@
+
+
 # Livrable-S22 | Groupe 7
 
 Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : application Next.js avec authentification Auth.js, déployée sur Vercel.
 
-> Sujet de l'application :  **EkoloEvent**
+> Sujet de l'application :  **(nom de l'application)**
 
-**EkoloEvent** est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
+**(nom de l'application)** est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
 
 ### À qui elle s'adresse
 
@@ -29,11 +31,11 @@ URL : _à compléter après le premier déploiement_
 
 | Membre                     | Rôle             | Compte Git       |
 | -------------------------- | ---------------- | ---------------- |
-| BITEMO Gilles Brant        | Auth, repo admin | @thedev-it       |
-| NGASSAI NDONGO Dubien      | Feature          | @dubien321       |
-| INIENGO Alain Justin Ledit | Deploiment       | @Ghostplayer89   |
+| BITEMO Gilles Brant        | Auth, repo admin | https://github.com/thedev-it |
+| NGASSAI NDONGO Dubien      | Feature          | https://github.com/dubien321 |
+| INIENGO Alain Justin Ledit | Deploiment       | https://github.com/Ghostplayer89 |
 | KONGOLO Salem              | ?                | @_pseudo_        |
-| MOUNGABIO Christ-Henoc     | Rendu & ref      | @chris-moungabio |
+| MOUNGABIO Christ-Henoc     | Rendu & ref      | https://github.com/Christ-Moungabio |
 
 ## Compte de test
 
