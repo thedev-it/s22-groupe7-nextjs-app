@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ATTENDEE
+  ORGANIZER
+  ADMIN
+}
+
+enum City {
+  BRAZZAVILLE
+  POINTE_NOIRE
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum OrderStatus {
+  PAID
+  CANCELLED
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ATTENDEE)
+  createdAt    DateTime @default(now())
+  events       Event[]
+  orders       Order[]
+}
+
+model Category {
+  id     String  @id @default(cuid())
+  name   String
+  slug   String  @unique
+  events Event[]
+}
+
+model Event {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  startsAt    DateTime
+  venue       String
+  city        City
+  imageUrl    String?
+  status      EventStatus  @default(DRAFT)
+  createdAt   DateTime     @default(now())
+  categoryId  String
+  organizerId String
+  category    Category     @relation(fields: [categoryId], references: [id])
+  organizer   User         @relation(fields: [organizerId], references: [id])
+  ticketTypes TicketType[]
+  orders      Order[]
+
+  @@index([city, startsAt])
+}
+
+model TicketType {
+  id       String   @id @default(cuid())
+  name     String // Standard, VIP...
+  price    Int // en FCFA, entier (0 = gratuit)
+  quantity Int // stock total
+  sold     Int      @default(0)
+  eventId  String
+  event    Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tickets  Ticket[]
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  status        OrderStatus @default(PAID)
+  total         Int
+  paymentMethod String      @default("SIMULATED")
+  createdAt     DateTime    @default(now())
+  userId        String
+  eventId       String
+  user          User        @relation(fields: [userId], references: [id])
+  event         Event       @relation(fields: [eventId], references: [id])
+  tickets       Ticket[]
+}
+
+model Ticket {
+  id           String       @id @default(cuid())
+  code         String       @unique @default(uuid()) // contenu du QR code
+  status       TicketStatus @default(VALID)
+  pricePaid    Int
+  usedAt       DateTime?
+  createdAt    DateTime     @default(now())
+  orderId      String
+  ticketTypeId String
+  order        Order        @relation(fields: [orderId], references: [id])
+  ticketType   TicketType   @relation(fields: [ticketTypeId], references: [id])
+}
