@@ -186,12 +186,62 @@ function CategoryTiles() {
   );
 }
 
+function OrganizerCta() {
+  return (
+    <section className="bg-text-primary text-background">
+      <div className="mx-auto flex max-w-content flex-col gap-9 px-4 py-14 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:py-22">
+        <div className="max-w-[560px]">
+          <h2 className="text-[32px] leading-none font-extrabold tracking-[-0.035em] md:text-5xl">
+            Remplissez la salle,
+            <br />
+            pas des tableurs.
+          </h2>
+          <p className="mt-5 mb-7 leading-relaxed text-surface-secondary">
+            Publiez l’événement, créez vos tickets Standard et VIP avec leur prix
+            et leur stock, puis suivez les ventes et validez les entrées depuis
+            votre tableau de bord.
+          </p>
+          <ButtonLink href="/evenements/nouveau">Créer un événement</ButtonLink>
+        </div>
+
+        <div
+          role="img"
+          aria-label="Exemple de suivi des ventes : 312 tickets vendus sur 400"
+          className="w-full rounded-lg border border-white/10 bg-white/5 p-7 lg:w-[420px] lg:shrink-0"
+        >
+          <p className="text-[11px] font-bold tracking-widest text-text-disabled">
+            CÔTE SAUVAGE FESTIVAL · VENTES
+          </p>
+          <p className="mt-3.5 mb-1.5 flex items-baseline gap-2.5">
+            <span className="text-[44px] leading-none font-extrabold tracking-tight">312</span>
+            <span className="text-[15px] text-text-disabled">/ 400 tickets</span>
+          </p>
+          <div className="h-2 rounded-full bg-white/10">
+            <div className="h-2 w-[78%] rounded-full bg-primary" />
+          </div>
+          <dl className="mt-5.5 flex justify-between text-sm">
+            <div>
+              <dt className="text-text-disabled">Chiffre d’affaires</dt>
+              <dd className="mt-1 text-lg font-extrabold">2 340 000 FCFA</dd>
+            </div>
+            <div>
+              <dt className="text-text-disabled">Entrées scannées</dt>
+              <dd className="mt-1 text-lg font-extrabold">0</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <Hero />
       <Steps />
       <CategoryTiles />
+      <OrganizerCta />
     </>
   );
 }
