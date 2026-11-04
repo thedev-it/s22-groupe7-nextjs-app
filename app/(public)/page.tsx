@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ButtonLink } from "@/shared/components/button-link";
 
 function HeroTicket() {
@@ -118,11 +119,79 @@ function Steps() {
   );
 }
 
+const categories = [
+  {
+    name: "Concerts",
+    slug: "concerts",
+    text: "Rumba, ndombolo, afrobeat. Les scènes de Brazza et Pointe-Noire.",
+    colors: "bg-text-primary text-background",
+  },
+  {
+    name: "Matchs",
+    slug: "matchs",
+    text: "Diables Rouges, championnat national, tournois de quartier.",
+    colors: "border border-border bg-primary-light",
+  },
+  {
+    name: "Conférences",
+    slug: "conferences",
+    text: "Tech, entrepreneuriat, culture. Apprendre et rencontrer.",
+    colors: "border border-border bg-surface-secondary",
+  },
+];
+
+function CategoryTiles() {
+  return (
+    <section className="mx-auto max-w-content px-4 pb-14 md:px-8 lg:pb-26">
+      <div className="mb-6 flex flex-col gap-3 md:mb-10 md:flex-row md:items-end md:justify-between">
+        <h2 className="text-3xl leading-tight font-extrabold tracking-[-0.03em] md:text-[44px] md:leading-none">
+          Chaque sortie a sa couleur.
+        </h2>
+        <Link
+          href="/evenements"
+          className="self-start border-b-2 border-primary pb-0.5 text-[15px] font-bold md:self-auto"
+        >
+          Tous les événements
+        </Link>
+      </div>
+
+      <ul className="grid gap-6 lg:grid-cols-3">
+        {categories.map((category, index) => (
+          <li key={category.slug}>
+            <Link
+              href={`/evenements?categorie=${category.slug}`}
+              className={`flex h-[230px] flex-col rounded-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-hover motion-reduce:transition-none motion-reduce:hover:translate-y-0 lg:h-[380px] ${category.colors}`}
+            >
+              <div className="flex flex-1 flex-col justify-between p-7">
+                <span className="text-[11px] font-bold tracking-widest opacity-70">
+                  N° 0{index + 1}
+                </span>
+                <div>
+                  <h3 className="text-[40px] leading-none font-extrabold tracking-[-0.04em] xl:text-5xl">
+                    {category.name}
+                  </h3>
+                  <p className="mt-3 max-w-[300px] text-[15px] leading-relaxed opacity-80">
+                    {category.text}
+                  </p>
+                </div>
+              </div>
+              <div className="relative border-t-2 border-dashed border-current/20 px-7 py-4 text-sm font-bold before:absolute before:-top-3 before:-left-3 before:size-[22px] before:rounded-full before:bg-background after:absolute after:-top-3 after:-right-3 after:size-[22px] after:rounded-full after:bg-background">
+                Voir les {category.name.toLowerCase()} <span aria-hidden>→</span>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <Hero />
       <Steps />
+      <CategoryTiles />
     </>
   );
 }
