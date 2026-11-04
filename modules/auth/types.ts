@@ -34,3 +34,16 @@ export interface CurrentUser {
   email?: string | null;
   role: Role;
 }
+
+export interface AuthzSuccess {
+  ok: true;
+  user: CurrentUser;
+}
+
+export interface AuthzFailure {
+  ok: false;
+  status: 403;
+  error: string;
+}
+
+export type AuthzResult = AuthzSuccess | AuthzFailure;
