@@ -25,7 +25,7 @@ Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : applicatio
 
 ## 🔗 Production
 
-URL : _à compléter après le premier déploiement_
+URL : https://s22-groupe7-nextjs-app.vercel.app
 
 ## 👥 Équipe
 
@@ -77,12 +77,12 @@ Capture : `docs/lighthouse.png`
 
 ## Checklist de déploiement
 
-- [ ] Dépôt importé dans Vercel
-- [ ] Variables d'environnement configurées (`AUTH_SECRET`, …)
-- [ ] Aucun secret dans le dépôt (`.env*` ignoré, `.env.example` sans valeurs)
-- [ ] Build de production réussi
-- [ ] Connexion / déconnexion testées en production
-- [ ] URL de production stable reportée dans ce README
+- [✅] Dépôt importé dans Vercel
+- [✅] Variables d'environnement configurées (`AUTH_SECRET`, …)
+- [✅] Aucun secret dans le dépôt (`.env*` ignoré, `.env.example` sans valeurs)
+- [✅] Build de production réussi
+- [✅] Connexion / déconnexion testées en production
+- [✅] URL de production stable reportée dans ce README
 
 ## Contribuer
 
