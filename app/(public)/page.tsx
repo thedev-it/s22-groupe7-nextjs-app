@@ -1,69 +1,247 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ButtonLink } from "@/shared/components/button-link";
+
+function HeroTicket() {
+  return (
+    <div
+      role="img"
+      aria-label="Exemple de ticket : Nuit de la Rumba, VIP, 15 000 FCFA"
+      className="relative mx-auto w-full max-w-[500px] py-8 lg:mx-0 lg:w-[480px] lg:shrink-0"
+    >
+      <div className="absolute inset-x-6 top-2 bottom-14 rotate-[5deg] rounded-lg bg-text-primary" />
+
+      <div className="relative flex -rotate-3 rounded-lg bg-surface shadow-hover">
+        <div className="flex-1 p-5 sm:p-7">
+          <span className="rounded-full bg-primary-light px-2.5 py-1 text-xs font-bold">
+            Concert
+          </span>
+          <p className="mt-4 mb-2 text-2xl leading-none font-extrabold tracking-tight sm:text-[34px]">
+            Nuit de la Rumba
+          </p>
+          <p className="text-sm leading-relaxed text-text-secondary">
+            Sam. 14 nov. · 20h30
+            <br />
+            Institut français, Brazzaville
+          </p>
+          <dl className="mt-5 flex gap-7">
+            <div>
+              <dt className="text-[11px] font-bold tracking-widest text-text-secondary">TYPE</dt>
+              <dd className="font-extrabold">VIP</dd>
+            </div>
+            <div>
+              <dt className="text-[11px] font-bold tracking-widest text-text-secondary">PRIX</dt>
+              <dd className="font-extrabold">15 000 FCFA</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div className="relative my-4 border-l-2 border-dashed border-border before:absolute before:-top-[27px] before:-left-3 before:size-[22px] before:rounded-full before:bg-background after:absolute after:-bottom-[27px] after:-left-3 after:size-[22px] after:rounded-full after:bg-background" />
+
+        <div className="flex flex-col items-center justify-between gap-3 p-5 sm:p-6">
+          <Image src="/qr-exemple.svg" alt="" width={104} height={104} className="size-20 sm:size-26" />
+          <span className="text-[11px] font-bold tracking-widest text-text-secondary">
+            N° 0042-BZV
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="mx-auto flex max-w-content flex-col gap-8 px-4 pt-10 pb-14 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:pt-24 lg:pb-26">
+      <div className="lg:max-w-[600px]">
+        <h1 className="text-[40px] leading-none font-extrabold tracking-[-0.035em] sm:text-6xl xl:text-7xl">
+          Découvrez les événements qui font{" "}
+          <span className="text-primary-hover">vibrer</span> le Congo.
+        </h1>
+        <p className="mt-6 max-w-[500px] text-base leading-relaxed text-text-secondary sm:text-lg">
+          Concerts, festivals, conférences et matchs. Trouvez votre prochaine
+          sortie et réservez vos tickets en quelques clics.
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href="/evenements">Explorer les événements</ButtonLink>
+          <ButtonLink href="/evenements/nouveau" variant="secondary">
+            Organiser un événement
+          </ButtonLink>
+        </div>
+      </div>
+
+      <HeroTicket />
+    </section>
+  );
+}
+
+const steps = [
+  {
+    title: "Trouvez votre sortie",
+    text: "Filtrez par ville, catégorie et date. Brazzaville ou Pointe-Noire.",
+  },
+  {
+    title: "Réservez vos places",
+    text: "Standard ou VIP, la quantité, et c’est payé. Jamais plus de places que prévu.",
+  },
+  {
+    title: "Présentez votre QR code",
+    text: "Votre ticket vous attend dans « Mes tickets ». Un scan à l’entrée, c’est tout.",
+  },
+];
+
+function Steps() {
+  return (
+    <section className="mx-auto max-w-content px-4 pb-14 md:px-8 lg:pb-26">
+      <div className="mb-7 flex flex-col gap-3 md:mb-10 md:flex-row md:items-end md:justify-between">
+        <h2 className="max-w-[560px] text-3xl leading-tight font-extrabold tracking-[-0.03em] md:text-[44px] md:leading-none">
+          De l’affiche à l’entrée, en trois étapes.
+        </h2>
+        <p className="max-w-[340px] text-[15px] leading-relaxed text-text-secondary">
+          Pas de file au guichet, pas de billet papier perdu.
+        </p>
+      </div>
+
+      <ol className="flex flex-col rounded-lg bg-surface shadow-hover md:flex-row">
+        {steps.map((step, index) => (
+          <li
+            key={step.title}
+            className="relative flex-1 border-dashed border-border p-6 not-first:border-t-2 md:px-9 md:py-10 md:not-first:border-t-0 md:not-first:border-l-2 md:not-first:before:absolute md:not-first:before:-top-[11px] md:not-first:before:-left-3 md:not-first:before:size-[22px] md:not-first:before:rounded-full md:not-first:before:bg-background md:not-first:after:absolute md:not-first:after:-bottom-[11px] md:not-first:after:-left-3 md:not-first:after:size-[22px] md:not-first:after:rounded-full md:not-first:after:bg-background"
+          >
+            <span className="text-[28px] leading-none font-extrabold text-primary-hover">
+              0{index + 1}
+            </span>
+            <h3 className="mt-4 mb-2 text-xl font-extrabold">{step.title}</h3>
+            <p className="text-[15px] leading-relaxed text-text-secondary">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+const categories = [
+  {
+    name: "Concerts",
+    slug: "concert",
+    text: "Rumba, ndombolo, afrobeat. Les scènes de Brazza et Pointe-Noire.",
+    colors: "bg-text-primary text-background",
+  },
+  {
+    name: "Matchs",
+    slug: "sport",
+    text: "Diables Rouges, championnat national, tournois de quartier.",
+    colors: "border border-border bg-primary-light",
+  },
+  {
+    name: "Conférences",
+    slug: "conference",
+    text: "Tech, entrepreneuriat, culture. Apprendre et rencontrer.",
+    colors: "border border-border bg-surface-secondary",
+  },
+];
+
+function CategoryTiles() {
+  return (
+    <section className="mx-auto max-w-content px-4 pb-14 md:px-8 lg:pb-26">
+      <div className="mb-6 flex flex-col gap-3 md:mb-10 md:flex-row md:items-end md:justify-between">
+        <h2 className="text-3xl leading-tight font-extrabold tracking-[-0.03em] md:text-[44px] md:leading-none">
+          Chaque sortie a sa couleur.
+        </h2>
+        <Link
+          href="/evenements"
+          className="self-start border-b-2 border-primary pb-0.5 text-[15px] font-bold md:self-auto"
+        >
+          Tous les événements
+        </Link>
+      </div>
+
+      <ul className="grid gap-6 lg:grid-cols-3">
+        {categories.map((category, index) => (
+          <li key={category.slug}>
+            <Link
+              href={`/evenements?categorie=${category.slug}`}
+              className={`flex h-[230px] flex-col rounded-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-hover motion-reduce:transition-none motion-reduce:hover:translate-y-0 lg:h-[380px] ${category.colors}`}
+            >
+              <div className="flex flex-1 flex-col justify-between p-7">
+                <span className="text-[11px] font-bold tracking-widest opacity-70">
+                  N° 0{index + 1}
+                </span>
+                <div>
+                  <h3 className="text-[40px] leading-none font-extrabold tracking-[-0.04em] xl:text-5xl">
+                    {category.name}
+                  </h3>
+                  <p className="mt-3 max-w-[300px] text-[15px] leading-relaxed opacity-80">
+                    {category.text}
+                  </p>
+                </div>
+              </div>
+              <div className="relative border-t-2 border-dashed border-current/20 px-7 py-4 text-sm font-bold before:absolute before:-top-3 before:-left-3 before:size-[22px] before:rounded-full before:bg-background after:absolute after:-top-3 after:-right-3 after:size-[22px] after:rounded-full after:bg-background">
+                Voir les {category.name.toLowerCase()} <span aria-hidden>→</span>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function OrganizerCta() {
+  return (
+    <section className="bg-text-primary text-background">
+      <div className="mx-auto flex max-w-content flex-col gap-9 px-4 py-14 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:py-22">
+        <div className="max-w-[560px]">
+          <h2 className="text-[32px] leading-none font-extrabold tracking-[-0.035em] md:text-5xl">
+            Remplissez la salle,
+            <br />
+            pas des tableurs.
+          </h2>
+          <p className="mt-5 mb-7 leading-relaxed text-surface-secondary">
+            Publiez l’événement, créez vos tickets Standard et VIP avec leur prix
+            et leur stock, puis suivez les ventes et validez les entrées depuis
+            votre tableau de bord.
+          </p>
+          <ButtonLink href="/evenements/nouveau">Créer un événement</ButtonLink>
+        </div>
+
+        <div
+          role="img"
+          aria-label="Exemple de suivi des ventes : 312 tickets vendus sur 400"
+          className="w-full rounded-lg border border-white/10 bg-white/5 p-7 lg:w-[420px] lg:shrink-0"
+        >
+          <p className="text-[11px] font-bold tracking-widest text-text-disabled">
+            CÔTE SAUVAGE FESTIVAL · VENTES
+          </p>
+          <p className="mt-3.5 mb-1.5 flex items-baseline gap-2.5">
+            <span className="text-[44px] leading-none font-extrabold tracking-tight">312</span>
+            <span className="text-[15px] text-text-disabled">/ 400 tickets</span>
+          </p>
+          <div className="h-2 rounded-full bg-white/10">
+            <div className="h-2 w-[78%] rounded-full bg-primary" />
+          </div>
+          <dl className="mt-5.5 flex justify-between text-sm">
+            <div>
+              <dt className="text-text-disabled">Chiffre d’affaires</dt>
+              <dd className="mt-1 text-lg font-extrabold">2 340 000 FCFA</dd>
+            </div>
+            <div>
+              <dt className="text-text-disabled">Entrées scannées</dt>
+              <dd className="mt-1 text-lg font-extrabold">0</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <Hero />
+      <Steps />
+      <CategoryTiles />
+      <OrganizerCta />
+    </>
   );
 }
