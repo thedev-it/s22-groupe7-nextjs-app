@@ -16,9 +16,9 @@ export type EventCardData = {
 };
 
 const posterColors: Record<string, string> = {
-  concerts: "bg-text-primary text-background",
-  matchs: "bg-primary-light",
-  festivals: "bg-primary",
+  concert: "bg-text-primary text-background",
+  sport: "bg-primary-light",
+  festival: "bg-primary",
 };
 
 function Availability({ remaining }: { remaining: number }) {
@@ -92,7 +92,7 @@ export function EventCard({ event }: { event: EventCardData }) {
             </span>
           </p>
         )}
-        <Availability remaining={event.remaining} />
+        {event.minPrice !== null && <Availability remaining={event.remaining} />}
       </div>
     </Link>
   );

@@ -1,80 +1,78 @@
-import { EventCard, type EventCardData } from "@/modules/events/components/event-card";
+import Link from "next/link";
+import { Suspense } from "react";
+import { EventCard } from "@/modules/events/components/event-card";
 import { EventFilters } from "@/modules/events/components/event-filters";
+import { getCategories, getEvents } from "@/modules/events/queries";
 
-// Données d'exemple : remplacées par la base à l'étape suivante.
-const categories = [
-  { name: "Concerts", slug: "concerts" },
-  { name: "Matchs", slug: "matchs" },
-  { name: "Conférences", slug: "conferences" },
-  { name: "Festivals", slug: "festivals" },
-];
+type SearchParams = PageProps<"/evenements">["searchParams"];
 
-const events: EventCardData[] = [
-  {
-    id: "1",
-    title: "Nuit de la Rumba",
-    startsAt: new Date("2026-11-14T19:30:00Z"),
-    venue: "Institut français",
-    city: "BRAZZAVILLE",
-    imageUrl: null,
-    category: categories[0],
-    minPrice: 5000,
-    remaining: 12,
-  },
-  {
-    id: "2",
-    title: "Brazza Tech Days 2026",
-    startsAt: new Date("2026-11-16T08:00:00Z"),
-    venue: "Palais des congrès",
-    city: "BRAZZAVILLE",
-    imageUrl: null,
-    category: categories[2],
-    minPrice: 0,
-    remaining: 140,
-  },
-  {
-    id: "3",
-    title: "Diables Rouges contre Gabon",
-    startsAt: new Date("2026-11-21T15:00:00Z"),
-    venue: "Stade Massamba-Débat",
-    city: "BRAZZAVILLE",
-    imageUrl: null,
-    category: categories[1],
-    minPrice: 2000,
-    remaining: 0,
-  },
-  {
-    id: "4",
-    title: "Côte Sauvage Festival",
-    startsAt: new Date("2026-11-22T16:00:00Z"),
-    venue: "Plage de la Côte Sauvage",
-    city: "POINTE_NOIRE",
-    imageUrl: null,
-    category: categories[3],
-    minPrice: 10000,
-    remaining: 380,
-  },
-];
+function firstValue(value: string | string[] | undefined) {
+  const text = Array.isArray(value) ? value[0] : value;
+  return text?.trim() || undefined;
+}
 
-export default function EventsPage() {
+async function EventsResults({ searchParams }: { searchParams: SearchParams }) {
+  const params = await searchParams;
+  const filters = {
+    q: firstValue(params.q),
+    ville: firstValue(params.ville),
+    categorie: firstValue(params.categorie),
+    date: firstValue(params.date),
+  };
+
+  const [categories, events] = await Promise.all([getCategories(), getEvents(filters)]);
+
+  return (
+    <>
+      <EventFilters categories={categories} filters={filters} />
+
+      <p className="mt-8 mb-4 text-[15px] text-text-secondary" aria-live="polite">
+        {events.length} {events.length > 1 ? "événements à venir" : "événement à venir"}
+      </p>
+
+      {events.length > 0 ? (
+        <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {events.map((event) => (
+            <li key={event.id}>
+              <EventCard event={event} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="rounded-lg border border-dashed border-border px-6 py-14 text-center">
+          <p className="text-lg font-bold">Aucun événement ne correspond à ces filtres.</p>
+          <Link href="/evenements" className="mt-3 inline-block font-semibold underline">
+            Voir tous les événements
+          </Link>
+        </div>
+      )}
+    </>
+  );
+}
+
+function EventsSkeleton() {
+  return (
+    <div aria-hidden className="animate-pulse motion-reduce:animate-none">
+      <div className="h-[106px] rounded-lg bg-surface-secondary" />
+      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {[1, 2, 3].map((item) => (
+          <div key={item} className="h-[380px] rounded-lg bg-surface-secondary" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function EventsPage({ searchParams }: PageProps<"/evenements">) {
   return (
     <div className="mx-auto max-w-content px-4 pt-8 pb-12 md:px-8 lg:pt-14 lg:pb-24">
-      <div className="mb-7 flex items-end justify-between gap-4">
-        <h1 className="text-4xl leading-none font-extrabold tracking-[-0.035em] md:text-[56px]">
-          Événements
-        </h1>
-        <p className="text-[15px] text-text-secondary">{events.length} événements à venir</p>
-      </div>
+      <h1 className="mb-7 text-4xl leading-none font-extrabold tracking-[-0.035em] md:text-[56px]">
+        Événements
+      </h1>
 
-      <EventFilters categories={categories} filters={{}} />
-
-      <ul className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {events.map((event) => (
-          <li key={event.id}>
-            <EventCard event={event} />
-          </li>
-        ))}
-      </ul>
+      <Suspense fallback={<EventsSkeleton />}>
+        <EventsResults searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }
