@@ -122,19 +122,19 @@ function Steps() {
 const categories = [
   {
     name: "Concerts",
-    slug: "concerts",
+    slug: "concert",
     text: "Rumba, ndombolo, afrobeat. Les scènes de Brazza et Pointe-Noire.",
     colors: "bg-text-primary text-background",
   },
   {
     name: "Matchs",
-    slug: "matchs",
+    slug: "sport",
     text: "Diables Rouges, championnat national, tournois de quartier.",
     colors: "border border-border bg-primary-light",
   },
   {
     name: "Conférences",
-    slug: "conferences",
+    slug: "conference",
     text: "Tech, entrepreneuriat, culture. Apprendre et rencontrer.",
     colors: "border border-border bg-surface-secondary",
   },
