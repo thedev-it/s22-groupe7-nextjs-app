@@ -118,6 +118,19 @@ async function main() {
     },
   });
 
+  // Compte participant
+  const attendeePassword = process.env.SEED_ATTENDEE_PASSWORD ?? "Participant123!";
+  await prisma.user.upsert({
+    where: { email: "participant@example.com" },
+    update: {},
+    create: {
+      name: "Participant Démo",
+      email: "participant@example.com",
+      passwordHash: await hash(attendeePassword, 10),
+      role: "ATTENDEE",
+    },
+  });
+
   // Événements publiés (pas de doublon si on relance)
   for (const e of events) {
     const exists = await prisma.event.findFirst({

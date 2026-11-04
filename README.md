@@ -37,14 +37,24 @@ URL : _à compléter après le premier déploiement_
 | KONGOLO Salem              | ?                | @_pseudo_        |
 | MOUNGABIO Christ-Henoc     | Rendu & ref      | https://github.com/Christ-Moungabio |
 
-## Compte de test
+## Comptes de test
 
+### 1. Compte Organisateur (démonstration)
 | Champ | Valeur |
 |---|---|
-| Email | _à compléter_ |
-| Mot de passe | _à compléter_ |
+| Rôle | `ORGANIZER` |
+| Email | `organisateur@example.com` |
+| Mot de passe | `Organizer123!` |
 
-Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
+### 2. Compte Participant (démonstration)
+| Champ | Valeur |
+|---|---|
+| Rôle | `ATTENDEE` |
+| Email | `participant@example.com` |
+| Mot de passe | `Participant123!` |
+
+Route protégée : `/dashboard` (redirige automatiquement vers `/login` si non connecté).
+Pages d'authentification : `/login` (connexion) et `/register` (inscription avec choix de rôle).
 
 ## Stack
 
