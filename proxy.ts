@@ -11,10 +11,12 @@ export const config = {
    * de session. Les routes publiques (/evenements, /, /a-propos…) ne sont PAS
    * incluses : le proxy n'est pas invoqué et aucun JWT n'est décodé pour elles.
    *
-   * Protégées :
+   * Protégées (session requise) :
    *  - /dashboard et sous-routes
    *  - /mes-tickets et sous-routes
    *  - /organizer et sous-routes
+   *
+   * Réservées au rôle ORGANIZER (session + rôle vérifiés dans le JWT) :
    *  - /evenements/nouveau
    *  - /evenements/[id]/modifier
    *  - /evenements/[id]/valider
