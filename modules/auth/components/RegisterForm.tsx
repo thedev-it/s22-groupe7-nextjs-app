@@ -71,7 +71,7 @@ export function RegisterForm() {
           <div>
             <div className="text-center mb-6">
               <h1 className="text-xl sm:text-2xl font-bold text-text-primary tracking-tight">
-                Quel type de compte souhaitez-vous ?
+                Qui est vous ?
               </h1>
               <p className="text-xs sm:text-sm text-text-secondary mt-1">
                 Choisissez votre profil pour une expérience adaptée
