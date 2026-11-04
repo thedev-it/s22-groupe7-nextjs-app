@@ -33,7 +33,7 @@ Dans une application web moderne avec Next.js (App Router), il y a deux mondes :
 │       └── route.ts               # Point d'entrée HTTP d'Auth.js (GET & POST)
 ├── modules/auth/
 │   ├── actions.ts                 # Server Actions ("use server") : register, login, logout
-│   ├── queries.ts                 # Fonctions de lecture : getCurrentUser(), requireUser(), requireRole()
+│   ├── queries.ts                 # Lecture et gardes : getCurrentUser(), requireUser(), requirePageRole(), requireRole(), requireOwnership()
 │   ├── validation.ts              # Validation des formulaires côté serveur
 │   ├── types.ts                   # Types TypeScript
 │   └── components/
@@ -145,9 +145,28 @@ sequenceDiagram
 
 Dans ce projet, la sécurité ne repose pas uniquement sur le proxy :
 1. **Au niveau du Proxy (`proxy.ts`)** : bloque les requêtes non authentifiées avant même d'entamer le rendu de la page.
-2. **Au niveau des Server Components (`queries.ts`)** : les pages sensibles appellent `await requireUser()` ou `await requireRole(["ORGANIZER"])`. Si la session est invalide, la redirection s'opère immédiatement.
-3. **Au niveau des Server Actions (`actions.ts`)** : chaque action d'écriture vérifie les permissions et ne fait jamais confiance aux données reçues sans validation.
+2. **Au niveau des Server Components (`queries.ts`)** : les pages sensibles appellent `await requireUser()` ou `await requirePageRole(["ORGANIZER"])`. Si la session est invalide, la redirection s'opère immédiatement.
+3. **Au niveau des Server Actions (`actions.ts`)** : chaque action d'écriture vérifie le rôle et la propriété de la ressource avec `requireRole(session, "ORGANIZER")` ou `requireOwnership(session, resource.organizerId)`. Une action ne redirige pas : elle renvoie `{ success: false, status: 403, error }`.
 4. **Attribution des rôles** : seuls les rôles `ATTENDEE` et `ORGANIZER` sont acceptés à l'inscription. Le rôle `ADMIN` ne peut jamais être attribué par formulaire.
+
+### Vérifier le rôle dans une Server Action
+
+```ts
+import { getCurrentSession, requireRole } from "@/modules/auth/queries";
+
+export async function createEventAction(formData: FormData) {
+  const session = await getCurrentSession();
+  const authz = requireRole(session, "ORGANIZER");
+  if (!authz.ok) {
+    return { success: false, status: authz.status, error: authz.error };
+  }
+
+  // authz.user.id est l'utilisateur vérifié côté serveur :
+  // ne jamais lire organizerId depuis le formulaire.
+}
+```
+
+Pour une modification ou une suppression, `requireOwnership(session, event.organizerId)` vérifie à la fois le rôle et le fait que `organizerId === session.user.id`. Toute tentative d'un participant, ou d'un organisateur sur la ressource d'un autre, renvoie une erreur 403.
 
 ---
 

@@ -9,7 +9,7 @@ const PRIVATE_PREFIXES = [
 ];
 
 /** Routes de gestion d'événements réservées aux organisateurs connectés */
-const PROTECTED_EVENT_PATTERNS = [
+const ORGANIZER_ONLY_PATTERNS = [
   /^\/evenements\/nouveau$/,
   /^\/evenements\/[^/]+\/modifier$/,
   /^\/evenements\/[^/]+\/valider$/,
@@ -34,10 +34,10 @@ export const authConfig = {
       const isOnPrivatePrefix = PRIVATE_PREFIXES.some((p) =>
         pathname.startsWith(p)
       );
-      const isOnProtectedEventRoute = PROTECTED_EVENT_PATTERNS.some((re) =>
+      const isOnOrganizerOnlyRoute = ORGANIZER_ONLY_PATTERNS.some((re) =>
         re.test(pathname)
       );
-      const isPrivate = isOnPrivatePrefix || isOnProtectedEventRoute;
+      const isPrivate = isOnPrivatePrefix || isOnOrganizerOnlyRoute;
 
       // Redirige les utilisateurs déjà connectés hors des pages d'auth
       if (isOnAuthRoute && isLoggedIn) {
@@ -47,6 +47,11 @@ export const authConfig = {
       // Protection des routes privées : non connecté → /login
       if (isPrivate && !isLoggedIn) {
         return false; // Auth.js redirige automatiquement vers pages.signIn
+      }
+
+      // Rôle vérifié dans le JWT : un participant ne gère pas d'événement
+      if (isOnOrganizerOnlyRoute && auth?.user?.role !== "ORGANIZER") {
+        return Response.redirect(new URL("/dashboard", nextUrl));
       }
 
       return true;
