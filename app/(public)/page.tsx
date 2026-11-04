@@ -48,7 +48,7 @@ function HeroTicket() {
   );
 }
 
-export default function Home() {
+function Hero() {
   return (
     <section className="mx-auto flex max-w-content flex-col gap-8 px-4 pt-10 pb-14 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:pt-24 lg:pb-26">
       <div className="lg:max-w-[600px]">
@@ -70,5 +70,59 @@ export default function Home() {
 
       <HeroTicket />
     </section>
+  );
+}
+
+const steps = [
+  {
+    title: "Trouvez votre sortie",
+    text: "Filtrez par ville, catégorie et date. Brazzaville ou Pointe-Noire.",
+  },
+  {
+    title: "Réservez vos places",
+    text: "Standard ou VIP, la quantité, et c’est payé. Jamais plus de places que prévu.",
+  },
+  {
+    title: "Présentez votre QR code",
+    text: "Votre ticket vous attend dans « Mes tickets ». Un scan à l’entrée, c’est tout.",
+  },
+];
+
+function Steps() {
+  return (
+    <section className="mx-auto max-w-content px-4 pb-14 md:px-8 lg:pb-26">
+      <div className="mb-7 flex flex-col gap-3 md:mb-10 md:flex-row md:items-end md:justify-between">
+        <h2 className="max-w-[560px] text-3xl leading-tight font-extrabold tracking-[-0.03em] md:text-[44px] md:leading-none">
+          De l’affiche à l’entrée, en trois étapes.
+        </h2>
+        <p className="max-w-[340px] text-[15px] leading-relaxed text-text-secondary">
+          Pas de file au guichet, pas de billet papier perdu.
+        </p>
+      </div>
+
+      <ol className="flex flex-col rounded-lg bg-surface shadow-hover md:flex-row">
+        {steps.map((step, index) => (
+          <li
+            key={step.title}
+            className="relative flex-1 border-dashed border-border p-6 not-first:border-t-2 md:px-9 md:py-10 md:not-first:border-t-0 md:not-first:border-l-2 md:not-first:before:absolute md:not-first:before:-top-[11px] md:not-first:before:-left-3 md:not-first:before:size-[22px] md:not-first:before:rounded-full md:not-first:before:bg-background md:not-first:after:absolute md:not-first:after:-bottom-[11px] md:not-first:after:-left-3 md:not-first:after:size-[22px] md:not-first:after:rounded-full md:not-first:after:bg-background"
+          >
+            <span className="text-[28px] leading-none font-extrabold text-primary-hover">
+              0{index + 1}
+            </span>
+            <h3 className="mt-4 mb-2 text-xl font-extrabold">{step.title}</h3>
+            <p className="text-[15px] leading-relaxed text-text-secondary">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <Steps />
+    </>
   );
 }
