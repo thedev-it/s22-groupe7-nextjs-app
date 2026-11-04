@@ -1,6 +1,23 @@
 import type { NextAuthConfig } from "next-auth";
 import type { Role } from "@/app/generated/prisma/enums";
 
+/** Préfixes des routes réservées aux utilisateurs connectés */
+const PRIVATE_PREFIXES = [
+  "/dashboard",
+  "/mes-tickets",
+  "/organizer",
+];
+
+/** Routes de gestion d'événements réservées aux organisateurs connectés */
+const PROTECTED_EVENT_PATTERNS = [
+  /^\/evenements\/nouveau$/,
+  /^\/evenements\/[^/]+\/modifier$/,
+  /^\/evenements\/[^/]+\/valider$/,
+];
+
+/** Préfixes des pages d'authentification */
+const AUTH_PREFIXES = ["/login", "/register", "/connexion", "/inscription"];
+
 export const authConfig = {
   pages: {
     signIn: "/login",
@@ -11,24 +28,25 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
-      const isOnOrganizer = nextUrl.pathname.startsWith("/organizer");
-      const isOnAccount = nextUrl.pathname.startsWith("/mes-tickets");
-      const isOnAuthRoute =
-        nextUrl.pathname.startsWith("/login") ||
-        nextUrl.pathname.startsWith("/register") ||
-        nextUrl.pathname.startsWith("/connexion") ||
-        nextUrl.pathname.startsWith("/inscription");
+      const { pathname } = nextUrl;
 
-      // Redirige les utilisateurs connectés hors des pages d'authentification
+      const isOnAuthRoute = AUTH_PREFIXES.some((p) => pathname.startsWith(p));
+      const isOnPrivatePrefix = PRIVATE_PREFIXES.some((p) =>
+        pathname.startsWith(p)
+      );
+      const isOnProtectedEventRoute = PROTECTED_EVENT_PATTERNS.some((re) =>
+        re.test(pathname)
+      );
+      const isPrivate = isOnPrivatePrefix || isOnProtectedEventRoute;
+
+      // Redirige les utilisateurs déjà connectés hors des pages d'auth
       if (isOnAuthRoute && isLoggedIn) {
         return Response.redirect(new URL("/dashboard", nextUrl));
       }
 
-      // Protection des routes privées
-      if (isOnDashboard || isOnOrganizer || isOnAccount) {
-        if (isLoggedIn) return true;
-        return false; // Redirige automatiquement vers signIn ("/login")
+      // Protection des routes privées : non connecté → /login
+      if (isPrivate && !isLoggedIn) {
+        return false; // Auth.js redirige automatiquement vers pages.signIn
       }
 
       return true;
