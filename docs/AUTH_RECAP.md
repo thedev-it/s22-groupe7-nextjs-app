@@ -77,16 +77,22 @@ Dans Next.js 16, `middleware.ts` a été renommé en `proxy.ts`. Il s'exécute a
 
 ### Flux 1 : Inscription d'un nouvel utilisateur (`/register`)
 
+L'inscription utilise un **stepper en 2 étapes** pour éliminer le défilement vertical et offrir une expérience utilisateur fluide :
+- **Étape 1** : Sélection du type de compte (cartes interactives pour **Participant** ou **Organisateur**).
+- **Étape 2** : Saisie des coordonnées (Nom, Email, Mot de passe, Confirmation) avec possibilité de revenir à l'étape 1 en un clic.
+
 ```mermaid
 sequenceDiagram
     autonumber
     actor U as Utilisateur
-    participant Form as RegisterForm.tsx
+    participant Form as RegisterForm.tsx (Stepper 2 étapes)
     participant Action as registerUserAction (Serveur)
     participant DB as Base de données (Prisma)
     participant Auth as Auth.js (signIn)
 
-    U->>Form: Saisit nom, email, mot de passe, rôle (Participant ou Organisateur)
+    U->>Form: Étape 1 : Choisit son profil (Participant ou Organisateur)
+    Form->>Form: Transition vers l'Étape 2 (conserve le rôle choisi)
+    U->>Form: Étape 2 : Saisit nom, email, mot de passe
     Form->>Action: Envoi du formulaire via Server Action
     Action->>Action: Valide les données (email regex, mot de passe >= 6 car., rôle strict)
     Action->>DB: Vérifie si l'email existe déjà
