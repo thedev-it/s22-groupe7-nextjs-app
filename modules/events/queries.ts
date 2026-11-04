@@ -57,3 +57,40 @@ export async function getEvents(filters: EventFiltersValues): Promise<EventCardD
     remaining: ticketTypes.reduce((total, type) => total + type.quantity - type.sold, 0),
   }));
 }
+
+export async function getPublishedEventIds() {
+  "use cache";
+  cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
+  cacheTag("events");
+
+  const events = await prisma.event.findMany({
+    where: { status: "PUBLISHED" },
+    select: { id: true },
+  });
+  return events.map((event) => event.id);
+}
+
+export async function getEventById(id: string) {
+  "use cache";
+  cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
+  cacheTag("events", `event-${id}`);
+
+  return prisma.event.findFirst({
+    where: { id, status: "PUBLISHED" },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      startsAt: true,
+      venue: true,
+      city: true,
+      imageUrl: true,
+      category: { select: { name: true, slug: true } },
+      organizer: { select: { name: true } },
+      ticketTypes: {
+        select: { id: true, name: true, price: true, quantity: true, sold: true },
+        orderBy: { price: "asc" },
+      },
+    },
+  });
+}

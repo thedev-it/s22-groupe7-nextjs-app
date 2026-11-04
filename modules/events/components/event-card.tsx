@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { City } from "@/app/generated/prisma/enums";
-import { cityLabels, formatDayMonth, formatPrice } from "../format";
+import {
+  categoryColors,
+  cityLabels,
+  defaultCategoryColor,
+  formatDayMonth,
+  formatPrice,
+} from "../format";
 
 export type EventCardData = {
   id: string;
@@ -13,12 +19,6 @@ export type EventCardData = {
   category: { name: string; slug: string };
   minPrice: number | null;
   remaining: number;
-};
-
-const posterColors: Record<string, string> = {
-  concert: "bg-text-primary text-background",
-  sport: "bg-primary-light",
-  festival: "bg-primary",
 };
 
 function Availability({ remaining }: { remaining: number }) {
@@ -48,7 +48,7 @@ export function EventCard({ event }: { event: EventCardData }) {
       className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-hover motion-reduce:transition-none motion-reduce:hover:translate-y-0"
     >
       <div
-        className={`relative flex aspect-video items-end p-4.5 ${posterColors[event.category.slug] ?? "bg-surface-secondary"}`}
+        className={`relative flex aspect-video items-end p-4.5 ${categoryColors[event.category.slug] ?? defaultCategoryColor}`}
       >
         {event.imageUrl ? (
           <Image
