@@ -78,7 +78,6 @@ async function FormulaireCreation() {
           </div>
         </fieldset>
 
-        {/* 2. On utilise notre bouton avec indicateur de chargement */}
         <SubmitButton />
       </form>
     </main>
