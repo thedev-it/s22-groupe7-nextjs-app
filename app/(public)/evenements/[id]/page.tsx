@@ -1,105 +1,156 @@
-import { Suspense } from "react";
-import { prisma } from "@/core/db/prisma";
-import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { ButtonLink } from "@/shared/components/button-link";
+import { TicketPanel } from "@/modules/events/components/ticket-panel";
+import {
+  categoryColors,
+  cityLabels,
+  defaultCategoryColor,
+  formatFullDate,
+  formatPrice,
+} from "@/modules/events/format";
+import { getEventById, getPublishedEventIds } from "@/modules/events/queries";
 
-export default function EvenementDetailPage({ 
-  params 
-}: { 
-  params: Promise<{ id: string }> 
-}) {
+export async function generateStaticParams() {
+  const ids = await getPublishedEventIds();
+  return ids.map((id) => ({ id }));
+}
+
+async function EventDetails({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const event = await getEventById(id);
+  if (!event) notFound();
+
+  const date = formatFullDate(event.startsAt);
+  const minPrice = event.ticketTypes[0]?.price;
+  const infos = [
+    { label: "Date", value: date },
+    { label: "Lieu", value: `${event.venue}, ${cityLabels[event.city]}` },
+    { label: "Organisateur", value: event.organizer.name },
+  ];
+
   return (
-    <Suspense fallback={<div className="p-10 text-center">Chargement de l'événement...</div>}>
-      <EvenementContent params={params} />
-    </Suspense>
+    <>
+      <nav aria-label="Fil d’Ariane" className="text-sm">
+        <ol className="flex flex-wrap gap-1.5 text-text-secondary">
+          <li>
+            <Link href="/evenements" className="hover:text-text-primary">
+              Événements
+            </Link>{" "}
+            /
+          </li>
+          <li>
+            <Link
+              href={`/evenements?categorie=${event.category.slug}`}
+              className="hover:text-text-primary"
+            >
+              {event.category.name}
+            </Link>{" "}
+            /
+          </li>
+          <li aria-current="page" className="font-bold text-text-primary">
+            {event.title}
+          </li>
+        </ol>
+      </nav>
+
+      <div className="mt-5 flex flex-col gap-7 lg:mt-7 lg:flex-row lg:items-start lg:gap-14">
+        <article className="min-w-0 flex-1">
+          <div
+            className={`relative flex aspect-video items-end overflow-hidden rounded-lg p-5.5 lg:p-10 ${categoryColors[event.category.slug] ?? defaultCategoryColor}`}
+          >
+            {event.imageUrl ? (
+              <Image
+                src={event.imageUrl}
+                alt={`Affiche de ${event.title}`}
+                fill
+                priority
+                sizes="(min-width: 1024px) 680px, 100vw"
+                className="object-cover"
+              />
+            ) : (
+              <span
+                aria-hidden
+                className="text-[52px] leading-none font-extrabold tracking-[-0.05em] md:text-8xl"
+              >
+                {event.category.name}
+                <span className="text-primary-hover">.</span>
+              </span>
+            )}
+          </div>
+
+          <span className="mt-6 inline-block rounded-full bg-primary-light px-2.5 py-1 text-xs font-bold lg:mt-9">
+            {event.category.name}
+          </span>
+          <h1 className="mt-3.5 mb-6 text-[34px] leading-none font-extrabold tracking-[-0.035em] md:text-[52px]">
+            {event.title}
+          </h1>
+
+          <dl className="grid gap-3.5 border-y border-border py-5 md:grid-cols-3 md:gap-0">
+            {infos.map((info) => (
+              <div key={info.label} className="md:not-first:border-l md:not-first:border-border md:not-first:pl-6">
+                <dt className="text-[11px] font-bold tracking-widest text-text-secondary uppercase">
+                  {info.label}
+                </dt>
+                <dd className="mt-1.5 text-[15px] font-bold">{info.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <h2 className="mt-8 mb-3 text-[22px] font-extrabold">À propos</h2>
+          <p className="max-w-[680px] leading-relaxed whitespace-pre-line text-text-secondary">
+            {event.description}
+          </p>
+
+          <h2 className="mt-8 mb-3 text-[22px] font-extrabold">Infos pratiques</h2>
+          <ul className="list-disc space-y-1.5 pl-5 text-[15px] text-text-secondary">
+            <li>Votre ticket est disponible dans « Mes tickets » avec son QR code.</li>
+            <li>Le QR code est scanné à l’entrée.</li>
+            <li>Un ticket déjà utilisé est refusé.</li>
+          </ul>
+        </article>
+
+        <TicketPanel date={date} ticketTypes={event.ticketTypes} />
+      </div>
+
+      {minPrice !== undefined && (
+        <div className="fixed inset-x-0 bottom-0 z-10 flex items-center justify-between gap-4 border-t border-border bg-surface px-4 py-3.5 shadow-[0_-8px_24px_rgba(37,37,34,0.08)] lg:hidden">
+          <p className="text-[15px] font-extrabold">
+            {formatPrice(minPrice)}
+            <span className="block text-xs font-medium text-text-secondary">
+              {minPrice === 0 ? "Entrée libre" : "À partir de"}
+            </span>
+          </p>
+          <ButtonLink href="#billetterie">Choisir mes tickets</ButtonLink>
+        </div>
+      )}
+    </>
   );
 }
 
-async function EvenementContent({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-
-  const event = await prisma.event.findUnique({
-    where: { id },
-    include: {
-      category: true,
-      organizer: true,
-      ticketTypes: true,
-    },
-  });
-
-  if (!event) {
-    notFound();
-  }
-
-  const ticketType = event.ticketTypes[0]; 
-  const placesRestantes = ticketType ? ticketType.quantity - ticketType.sold : 0;
-
-  // Tout ton design est conservé ici
+function EventSkeleton() {
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="mb-8">
-        <Link href="/" className="text-sm text-primary hover:underline mb-4 inline-block">
-          ← Retour aux événements
-        </Link>
-        <div className="flex items-center gap-3 mb-2">
-          <span className="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-            {event.category.name}
-          </span>
-          <span className="text-sm text-text-secondary">
-            Organisé par {event.organizer.name}
-          </span>
+    <div aria-hidden className="animate-pulse motion-reduce:animate-none">
+      <div className="h-5 w-64 rounded-sm bg-surface-secondary" />
+      <div className="mt-7 flex flex-col gap-7 lg:flex-row lg:gap-14">
+        <div className="flex-1">
+          <div className="aspect-video rounded-lg bg-surface-secondary" />
+          <div className="mt-9 h-12 w-2/3 rounded-sm bg-surface-secondary" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-text-primary mb-2">
-          {event.title}
-        </h1>
-        <p className="text-lg text-text-secondary">
-          {new Date(event.startsAt).toLocaleDateString("fr-FR", {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-            hour: '2-digit', minute: '2-digit'
-          })} — {event.venue}, {event.city}
-        </p>
+        <div className="h-[360px] rounded-lg bg-surface-secondary lg:w-[400px]" />
       </div>
+    </div>
+  );
+}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-2 space-y-6">
-          <div className="bg-surface border border-border rounded-xl p-6 shadow-card">
-            <h2 className="text-xl font-bold text-text-primary mb-4">À propos de l'événement</h2>
-            <p className="text-text-secondary whitespace-pre-wrap">{event.description}</p>
-          </div>
-        </div>
-
-        <div className="md:col-span-1">
-          <div className="bg-surface border border-border rounded-xl p-6 shadow-card sticky top-6">
-            <h2 className="text-xl font-bold text-text-primary mb-4">Billets</h2>
-            
-            {ticketType ? (
-              <div className="space-y-4">
-                <div>
-                  <p className="font-semibold text-text-primary">{ticketType.name}</p>
-                  <p className="text-2xl font-bold text-primary">
-                    {ticketType.price.toLocaleString("fr-FR")} FCFA
-                  </p>
-                </div>
-                
-                <p className="text-sm text-text-secondary">
-                  {placesRestantes > 0 
-                    ? `${placesRestantes} place(s) restante(s)`
-                    : "Complet"}
-                </p>
-
-                <button 
-                  disabled={placesRestantes === 0}
-                  className="w-full h-12 bg-primary hover:bg-primary-hover disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
-                >
-                  {placesRestantes > 0 ? "Acheter un ticket" : "Complet"}
-                </button>
-              </div>
-            ) : (
-              <p className="text-sm text-text-secondary">Aucun billet disponible.</p>
-            )}
-          </div>
-        </div>
-      </div>
-    </main>
+export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <div className="mx-auto max-w-content px-4 pt-5 pb-28 md:px-8 lg:pt-8 lg:pb-24">
+      <Suspense fallback={<EventSkeleton />}>
+        <EventDetails params={params} />
+      </Suspense>
+    </div>
   );
 }

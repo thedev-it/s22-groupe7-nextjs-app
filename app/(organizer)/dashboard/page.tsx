@@ -14,16 +14,18 @@ async function DashboardContent() {
   const user = await requireUser();
   const isOrganizer = user.role === "ORGANIZER";
 
+  // Ton code pour récupérer les événements
   const mesEvenements = isOrganizer 
-  ? await prisma.event.findMany({
-      where: { organizerId: user.id },
-      include: { 
-        ticketTypes: true,
-        _count: { select: { orders: true } } 
-      },
-      orderBy: { startsAt: "desc" },
-    })
-  : [];
+    ? await prisma.event.findMany({
+        where: { organizerId: user.id },
+        include: { 
+          ticketTypes: true,
+          _count: { select: { orders: true } } 
+        },
+        orderBy: { startsAt: "desc" },
+      })
+    : [];
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* En-tête du tableau de bord */}
@@ -68,23 +70,15 @@ async function DashboardContent() {
                 Créez un nouvel événement, définissez les types de tickets, fixez vos prix et gérez vos quotas.
               </p>
               <Link
-                href="/creation"
+                href="/evenements/nouveau"
                 className="inline-flex items-center justify-center h-10 px-4 bg-primary hover:bg-primary-hover text-white text-sm font-medium rounded-lg transition-colors"
               >
                 Créer un événement
               </Link>
             </div>
 
-            {/* <div className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow">
-              <h2 className="text-lg font-bold text-text-primary mb-2">
-                Suivi des ventes
-              </h2>
-              <p className="text-sm text-text-secondary mb-4">
-                Consultez le nombre de places vendues, les revenus générés et la liste des participants inscrits.
-              </p>
-              <span className="text-xs text-text-disabled">Module organisateur bientôt disponible</span>
-            </div> */}
-                        <div className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow md:col-span-2">
+            {/* TON BLOC MES ÉVÉNEMENTS EST ICI */}
+            <div className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow md:col-span-2">
               <h2 className="text-lg font-bold text-text-primary mb-4">
                 Mes événements
               </h2>

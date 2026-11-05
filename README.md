@@ -25,7 +25,7 @@ Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : applicatio
 
 ## 🔗 Production
 
-URL : _à compléter après le premier déploiement_
+URL : https://s22-groupe7-nextjs-app.vercel.app
 
 ## 👥 Équipe
 
@@ -37,14 +37,24 @@ URL : _à compléter après le premier déploiement_
 | KONGOLO Salem              | ?                | @_pseudo_        |
 | MOUNGABIO Christ-Henoc     | Rendu & ref      | https://github.com/Christ-Moungabio |
 
-## Compte de test
+## Comptes de test
 
+### 1. Compte Organisateur (démonstration)
 | Champ | Valeur |
 |---|---|
-| Email | _à compléter_ |
-| Mot de passe | _à compléter_ |
+| Rôle | `ORGANIZER` |
+| Email | `organisateur@example.com` |
+| Mot de passe | `Organizer123!` |
 
-Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
+### 2. Compte Participant (démonstration)
+| Champ | Valeur |
+|---|---|
+| Rôle | `ATTENDEE` |
+| Email | `participant@example.com` |
+| Mot de passe | `Participant123!` |
+
+Route protégée : `/dashboard` (redirige automatiquement vers `/login` si non connecté).
+Pages d'authentification : `/login` (connexion) et `/register` (inscription avec choix de rôle).
 
 ## Stack
 
@@ -77,12 +87,12 @@ Capture : `docs/lighthouse.png`
 
 ## Checklist de déploiement
 
-- [ ] Dépôt importé dans Vercel
-- [ ] Variables d'environnement configurées (`AUTH_SECRET`, …)
-- [ ] Aucun secret dans le dépôt (`.env*` ignoré, `.env.example` sans valeurs)
-- [ ] Build de production réussi
-- [ ] Connexion / déconnexion testées en production
-- [ ] URL de production stable reportée dans ce README
+- [✅] Dépôt importé dans Vercel
+- [✅] Variables d'environnement configurées (`AUTH_SECRET`, …)
+- [✅] Aucun secret dans le dépôt (`.env*` ignoré, `.env.example` sans valeurs)
+- [✅] Build de production réussi
+- [✅] Connexion / déconnexion testées en production
+- [✅] URL de production stable reportée dans ce README
 
 ## Contribuer
 
