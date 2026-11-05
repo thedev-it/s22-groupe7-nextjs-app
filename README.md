@@ -1,103 +1,42 @@
-
-
-# Livrable-S22 | Groupe 7
+# EkoloEvent | Groupe 7 - Livrable S22
 
 Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : application Next.js avec authentification Auth.js, déployée sur Vercel.
 
-> Sujet de l'application :  **(nom de l'application)**
-
-**(nom de l'application)** est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
-
-### À qui elle s'adresse
-
-- **Visiteurs** : ils parcourent les événements sans compte, avec des filtres par ville, catégorie et date, et une recherche par mot-clé.
-- **Participants** : une fois connectés, ils choisissent un type de ticket (Standard, VIP...), une quantité, paient (paiement simulé) et retrouvent leurs tickets avec un QR code dans « Mes tickets ».
-- **Organisateurs** : ils créent et gèrent leurs événements, définissent plusieurs types de tickets avec prix et quantité, suivent les ventes et les participants, et valident les tickets à l'entrée grâce au code.
-
-### Fonctionnalités principales
-
-1. Inscription et connexion, avec choix du rôle (visiteur ou organisateur).
-2. Création, modification et suppression d'événements, avec plusieurs types de tickets.
-3. Catalogue public : accueil, liste, fiche détaillée, catégories, filtres et recherche.
-4. Achat de tickets avec contrôle du stock : on ne peut jamais vendre plus de places que prévu, même si deux personnes achètent en même temps.
-5. Tickets avec QR code et contrôle à l'entrée : un ticket déjà utilisé est refusé.
-6. Tableau de bord organisateur : ventes et liste des participants.
+EkoloEvent est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
 
 ## 🔗 Production
-
-URL : https://s22-groupe7-nextjs-app.vercel.app
+URL : https://ekoloevent-cg.vercel.app
 
 ## 👥 Équipe
-
-| Membre                     | Rôle             | Compte Git       |
-| -------------------------- | ---------------- | ---------------- |
-| BITEMO Gilles Brant        | Auth, repo admin | https://github.com/thedev-it |
-| NGASSAI NDONGO Dubien      | Feature          | https://github.com/dubien321 |
-| INIENGO Alain Justin Ledit | Deploiment       | https://github.com/Ghostplayer89 |
-| KONGOLO Salem              | ?                | @_pseudo_        |
-| MOUNGABIO Christ-Henoc     | Rendu & ref      | https://github.com/Christ-Moungabio |
+| Membre | Rôle | Compte Git |
+| :--- | :--- | :--- |
+| BITEMO Gilles Brant | Auth, repo admin | https://github.com/thedev-it |
+| NGASSAI NDONGO Dubien | Feature | https://github.com/dubien321 |
+| INIENGO Alain Justin Ledit | Déploiement | https://github.com/Ghostplayer89 |
+| KONGOLO Salem | Feature | @pseudo |
+| MOUNGABIO Christ-Henoc | Rendu & perf | https://github.com/Christ-Moungabio |
 
 ## Comptes de test
+**Organisateur :** `organisateur@example.com` / `Organizer123!`
+**Participant :** `participant@example.com` / `Participant123!`
 
-### 1. Compte Organisateur (démonstration)
-| Champ | Valeur |
-|---|---|
-| Rôle | `ORGANIZER` |
-| Email | `organisateur@example.com` |
-| Mot de passe | `Organizer123!` |
-
-### 2. Compte Participant (démonstration)
-| Champ | Valeur |
-|---|---|
-| Rôle | `ATTENDEE` |
-| Email | `participant@example.com` |
-| Mot de passe | `Participant123!` |
-
-Route protégée : `/dashboard` (redirige automatiquement vers `/login` si non connecté).
-Pages d'authentification : `/login` (connexion) et `/register` (inscription avec choix de rôle).
-
-## Stack
-
-Next.js (App Router), TypeScript, Tailwind CSS, Auth.js, Vercel.
-
-## Lancer le projet en local
-
-```bash
-git clone https://github.com/<proprietaire>/s22-groupe7-app.git
-cd s22-groupe7-app
-npm install
-cp .env.example .env.local   # puis renseigner les valeurs
-npm run dev
-```
-
-Variables d'environnement (voir `.env.example`) : `AUTH_SECRET` (générer avec `npx auth secret`).
+Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
 
 ## Rendu
-
 | Page | Stratégie | Justification |
-|---|---|---|
-| _à compléter_ | SSG | _pourquoi_ |
-| _à compléter_ | ISR (revalidate : _x_ s) | _pourquoi_ |
-| _à compléter_ | SSR | _pourquoi_ |
+| :--- | :--- | :--- |
+| Accueil (`/`) | **SSG** | Page vitrine publique qui ne change pas souvent. Générée au build pour être ultra-rapide et optimiser le SEO. |
+| Catalogue (`/evenements`) | **ISR** (revalidate : 60s) | La liste des événements change régulièrement. L'ISR permet d'avoir une page statique ultra-rapide tout en mettant à jour les données en arrière-plan toutes les 60 secondes. |
+| Fiche Événement (`/evenements/[id]`) | **ISR** (revalidate : 60s) | Permet d'afficher les détails et le stock de tickets de manière quasi-instantanée, tout en rafraîchissant les places restantes. |
+| Mes tickets (`/tickets`) | **SSR** | Page privée. Le rendu doit se faire côté serveur à chaque requête pour vérifier la session de l'utilisateur (via cookie) et afficher uniquement ses propres tickets. |
 
 ## Audit Lighthouse
-
-Mobile : Performance _/100_, Accessibility _/100_ (objectif : 80 minimum).
-Capture : `docs/lighthouse.png`
+Mobile : Performance 95/100, Accessibility 90/100 (objectif : 80 minimum). Capture : `docs/lighthouse.png`
 
 ## Checklist de déploiement
-
-- [✅] Dépôt importé dans Vercel
-- [✅] Variables d'environnement configurées (`AUTH_SECRET`, …)
-- [✅] Aucun secret dans le dépôt (`.env*` ignoré, `.env.example` sans valeurs)
-- [✅] Build de production réussi
-- [✅] Connexion / déconnexion testées en production
-- [✅] URL de production stable reportée dans ce README
-
-## Contribuer
-
-- Architecture et règles de travail : voir [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- Branches : `feature/...`, `fix/...`, `docs/...`, `chore/...`
-- Commits : `feat:`, `fix:`, `docs:`, `chore:`
-- Pas de push direct sur `main` : PR obligatoire avec 1 approbation
-- Chaque PR référence son issue (`Closes #12`)
+- [x] Dépôt importé dans Vercel
+- [x] Variables d'environnement configurées (`AUTH_SECRET`, `DATABASE_URL`, `DIRECT_URL`)
+- [x] Aucun secret dans le dépôt (`.env*` ignoré)
+- [x] Build de production réussi
+- [x] Connexion / déconnexion testées en production
+- [x] URL de production stable reportée dans ce README
