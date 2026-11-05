@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/modules/auth/queries";
 import { LogoutButton } from "@/modules/auth/components/LogoutButton";
+import { prisma } from "@/core/db/prisma";
 
 export const metadata: Metadata = {
   title: "Tableau de bord | Event Congo",
@@ -13,9 +14,25 @@ async function DashboardContent() {
   const user = await requireUser();
   const isOrganizer = user.role === "ORGANIZER";
 
+  const mesEvenements = isOrganizer 
+    ? await prisma.event.findMany({
+        where: { organizerId: user.id },
+        include: { 
+          ticketTypes: true,
+          _count: { select: { orders: true } } 
+        },
+        orderBy: { startsAt: "desc" },
+      })
+    : [];
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* En-tête du tableau de bord */}
+
+      <div className="mb-6">
+        <Link href="/" className="inline-flex items-center text-sm font-medium text-text-secondary hover:text-primary transition-colors">
+          <span className="mr-2">←</span> Retour à l'accueil
+        </Link>
+      </div>
       <div className="bg-surface border border-border rounded-xl shadow-card p-6 sm:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -45,7 +62,6 @@ async function DashboardContent() {
         </div>
       </div>
 
-      {/* Cartes d'actions selon le rôle */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {isOrganizer ? (
           <>
@@ -64,14 +80,51 @@ async function DashboardContent() {
               </Link>
             </div>
 
-            <div className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow">
-              <h2 className="text-lg font-bold text-text-primary mb-2">
-                Suivi des ventes
+            <div className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow md:col-span-2">
+              <h2 className="text-lg font-bold text-text-primary mb-4">
+                Mes événements
               </h2>
-              <p className="text-sm text-text-secondary mb-4">
-                Consultez le nombre de places vendues, les revenus générés et la liste des participants inscrits.
-              </p>
-              <span className="text-xs text-text-disabled">Module organisateur bientôt disponible</span>
+              
+              {mesEvenements.length === 0 ? (
+                <p className="text-sm text-text-secondary mb-4">
+                  Vous n&apos;avez pas encore créé d&apos;événement.
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {mesEvenements.map((event) => {
+                    const totalPlaces = event.ticketTypes.reduce((sum, t) => sum + t.quantity, 0);
+                    const placesVendues = event.ticketTypes.reduce((sum, t) => sum + t.sold, 0);
+                    
+                    return (
+                      <div key={event.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-border rounded-lg bg-surface-secondary">
+                        <div>
+                          <p className="font-semibold text-text-primary">{event.title}</p>
+                          <p className="text-sm text-text-secondary">
+                            {new Date(event.startsAt).toLocaleDateString("fr-FR")} — {event.venue}
+                          </p>
+                          <p className="text-xs text-text-disabled mt-1">
+                            {placesVendues} / {totalPlaces} places vendues
+                          </p>
+                        </div>
+                        <div className="mt-4 sm:mt-0 flex gap-2">
+                          <Link
+                            href={`/evenements/${event.id}`}
+                            className="px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-surface transition-colors"
+                          >
+                            Voir
+                          </Link>
+                          <Link
+                            href={`/evenements/${event.id}/valider`}
+                            className="px-3 py-1.5 text-sm bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors"
+                          >
+                            Valider ticket
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </>
         ) : (
