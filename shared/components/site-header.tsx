@@ -11,7 +11,7 @@ export function SiteHeader() {
   return (
     <header className="border-b border-border">
       <div className="mx-auto flex h-18 max-w-content items-center justify-between px-4 md:px-8">
-        <Link href="/" aria-label="Event Congo, accueil">
+        <Link href="/" aria-label="EkoloEvent, accueil">
           <Logo />
         </Link>
 

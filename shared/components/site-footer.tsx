@@ -11,7 +11,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-content flex-col gap-5 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-8">
-        <Link href="/" aria-label="Event Congo, accueil">
+        <Link href="/" aria-label="EkoloEvent, accueil">
           <Logo />
         </Link>
         <nav aria-label="Pied de page">
