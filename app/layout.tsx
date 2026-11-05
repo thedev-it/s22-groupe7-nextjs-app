@@ -8,7 +8,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Event Congo",
+  title: "EkoloEvent",
   description:
     "Découvrez les événements de Brazzaville et Pointe-Noire et réservez vos tickets en ligne.",
 };

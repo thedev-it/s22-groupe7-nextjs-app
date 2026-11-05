@@ -5,7 +5,7 @@ export function Logo() {
         aria-hidden
         className="relative h-[22px] w-[30px] rounded-[5px] bg-primary before:absolute before:top-[7px] before:-left-1 before:size-2 before:rounded-full before:bg-background after:absolute after:top-[7px] after:-right-1 after:size-2 after:rounded-full after:bg-background"
       />
-      Event Congo
+      EkoloEvent
     </span>
   );
 }
