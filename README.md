@@ -4,9 +4,9 @@
 
 Projet de groupe Akieni Academy, livrable S22 (02/11 au 06/11/2026) : application Next.js avec authentification Auth.js, déployée sur Vercel.
 
-> Sujet de l'application :  **(nom de l'application)**
+> Sujet de l'application : **EkoloEvent**
 
-**(nom de l'application)** est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
+**EkoloEvent** est une plateforme web de publication et de billetterie d'événements au Congo Brazzaville. Elle met en relation des organisateurs, qui publient leurs événements, et des visiteurs, qui les découvrent et achètent leurs tickets en ligne.
 
 ### À qui elle s'adresse
 
@@ -34,7 +34,7 @@ URL : https://s22-groupe7-nextjs-app.vercel.app
 | BITEMO Gilles Brant        | Auth, repo admin | https://github.com/thedev-it |
 | NGASSAI NDONGO Dubien      | Feature          | https://github.com/dubien321 |
 | INIENGO Alain Justin Ledit | Deploiment       | https://github.com/Ghostplayer89 |
-| KONGOLO Salem              | ?                | @_pseudo_        |
+| KONGOLO Salem              | absent           | absent           |
 | MOUNGABIO Christ-Henoc     | Rendu & ref      | https://github.com/Christ-Moungabio |
 
 ## Comptes de test
@@ -74,15 +74,26 @@ Variables d'environnement (voir `.env.example`) : `AUTH_SECRET` (générer avec 
 
 ## Rendu
 
-| Page | Stratégie | Justification |
+| Page | Stratégie | Pourquoi |
 |---|---|---|
-| _à compléter_ | SSG | _pourquoi_ |
-| _à compléter_ | ISR (revalidate : _x_ s) | _pourquoi_ |
-| _à compléter_ | SSR | _pourquoi_ |
+| `/` | SSG | Le contenu est le même pour tout le monde. Rien ne dépend de la requête, la page est générée au build. |
+| `/evenements` et `/evenements/[id]` | ISR, revalidation toutes les 60 s | Les événements et les places restantes changent, mais pas à la seconde. On garde les données en cache 60 secondes au lieu d'interroger la base à chaque visite. |
+| `/dashboard` | SSR | Le contenu dépend de l'utilisateur connecté, donc la page est calculée à chaque requête. |
+
+Avec `cacheComponents` activé dans `next.config.ts`, `export const revalidate` n'existe plus. L'ISR se fait avec `'use cache'` et `cacheLife` sur les fonctions de lecture de `modules/events/queries.ts`. Les pages SSR lisent la session dans un `<Suspense>`.
+
+Le résultat se vérifie avec `npm run build` : `/` sort en `○` (statique), `/evenements` et `/dashboard` en `◐` (coquille statique, contenu calculé ensuite).
 
 ## Audit Lighthouse
 
-Mobile : Performance _/100_, Accessibility _/100_ (objectif : 80 minimum).
+Mesuré sur mobile avec `npm run build` puis `npm start` (objectif : 80 minimum).
+
+| Page | Performance | Accessibility |
+|---|---|---|
+| `/` | 85 | 100 |
+| `/evenements` | 84 | 100 |
+| `/evenements/[id]` | 99 | 100 |
+
 Capture : `docs/lighthouse.png`
 
 ## Checklist de déploiement
