@@ -35,7 +35,6 @@ export async function creerEvenement(formData: FormData) {
       description,
       startsAt,
       venue,
-      imageUrl: imageUrl, 
       city,
       categoryId,
       status: "PUBLISHED",

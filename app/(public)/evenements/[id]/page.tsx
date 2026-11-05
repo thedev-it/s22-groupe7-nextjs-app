@@ -59,8 +59,8 @@ async function EventDetails({ params }: { params: Promise<{ id: string }> }) {
       <div className="mt-5 flex flex-col gap-7 lg:mt-7 lg:flex-row lg:items-start lg:gap-14">
         <article className="min-w-0 flex-1">
           <div
-            className={`relative flex aspect-video min-h-[300px] items-end overflow-hidden rounded-xl p-8 lg:p-12 ${categoryColors[event.category.slug] ?? defaultCategoryColor}`}
-          >
+    className={`relative flex aspect-video min-h-[300px] items-end overflow-hidden rounded-xl p-8 lg:p-12 ${categoryColors[event.category.slug] ?? defaultCategoryColor}`}
+  >
             {event.imageUrl ? (
               <Image
                 src={event.imageUrl}

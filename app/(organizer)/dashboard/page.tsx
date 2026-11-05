@@ -14,7 +14,6 @@ async function DashboardContent() {
   const user = await requireUser();
   const isOrganizer = user.role === "ORGANIZER";
 
-  // Ton code pour récupérer les événements
   const mesEvenements = isOrganizer 
     ? await prisma.event.findMany({
         where: { organizerId: user.id },
@@ -28,7 +27,6 @@ async function DashboardContent() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* En-tête du tableau de bord */}
       <div className="bg-surface border border-border rounded-xl shadow-card p-6 sm:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -58,7 +56,6 @@ async function DashboardContent() {
         </div>
       </div>
 
-      {/* Cartes d'actions selon le rôle */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {isOrganizer ? (
           <>
@@ -77,7 +74,6 @@ async function DashboardContent() {
               </Link>
             </div>
 
-            {/* TON BLOC MES ÉVÉNEMENTS EST ICI */}
             <div className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow md:col-span-2">
               <h2 className="text-lg font-bold text-text-primary mb-4">
                 Mes événements

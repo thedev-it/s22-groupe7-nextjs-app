@@ -1,11 +1,11 @@
-import { prisma } from "@/core/db/prisma"
-import { creerEvenement } from "@/modules/events/create"
-import Link from "next/link"
+import { Suspense } from "react";
+import { prisma } from "@/core/db/prisma";
+import { creerEvenement } from "@/modules/events/create";
+import Link from "next/link";
+import { SubmitButton } from "./submit-button";
 
-export const revalidate = 0;
-export default async function NouvelEvenementPage() {
-  // On récupère les catégories pour le menu déroulant
-  const categories = await prisma.category.findMany({ orderBy: { name: "asc" } })
+async function FormulaireCreation() {
+  const categories = await prisma.category.findMany({ orderBy: { name: "asc" } });
 
   return (
     <main className="mx-auto max-w-2xl p-6">
@@ -21,18 +21,7 @@ export default async function NouvelEvenementPage() {
           <label htmlFor="title" className="block text-sm font-medium mb-1">Titre de l'événement</label>
           <input id="title" name="title" required className="w-full rounded border p-2" placeholder="Ex: Concert Afrobeat" />
         </div>
-        <div>
-            <label htmlFor="imageUrl" className="block text-sm font-medium mb-1">
-                URL de l'image (optionnel)
-            </label>
-            <input 
-                id="imageUrl" 
-                name="imageUrl" 
-                type="url" 
-                placeholder="https://exemple.com/image.jpg" 
-                className="w-full rounded border p-2" 
-            />
-            </div>
+
 
         <div>
           <label htmlFor="description" className="block text-sm font-medium mb-1">Description</label>
@@ -89,10 +78,17 @@ export default async function NouvelEvenementPage() {
           </div>
         </fieldset>
 
-        <button type="submit" className="w-full rounded bg-orange-500 px-4 py-3 font-semibold text-white hover:bg-orange-600 transition-colors">
-          Publier l'événement
-        </button>
+        {/* 2. On utilise notre bouton avec indicateur de chargement */}
+        <SubmitButton />
       </form>
     </main>
-  )
+  );
+}
+
+export default function NouvelEvenementPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center">Chargement du formulaire...</div>}>
+      <FormulaireCreation />
+    </Suspense>
+  );
 }
