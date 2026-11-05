@@ -21,6 +21,18 @@ export default async function NouvelEvenementPage() {
           <label htmlFor="title" className="block text-sm font-medium mb-1">Titre de l'événement</label>
           <input id="title" name="title" required className="w-full rounded border p-2" placeholder="Ex: Concert Afrobeat" />
         </div>
+        <div>
+            <label htmlFor="imageUrl" className="block text-sm font-medium mb-1">
+                URL de l'image (optionnel)
+            </label>
+            <input 
+                id="imageUrl" 
+                name="imageUrl" 
+                type="url" 
+                placeholder="https://exemple.com/image.jpg" 
+                className="w-full rounded border p-2" 
+            />
+            </div>
 
         <div>
           <label htmlFor="description" className="block text-sm font-medium mb-1">Description</label>
