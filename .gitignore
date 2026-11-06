@@ -42,3 +42,9 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+# Dossiers locaux des agents IA
+/.claude/
+/.windsurf/
+/.agents/
+/skills-lock.json
