@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import { requireUser } from "@/modules/auth/queries";
 import { prisma } from "@/core/db/prisma";
 import Link from "next/link";
-import QRCode from "react-qr-code"; // <-- L'import du QR Code
+import QRCode from "react-qr-code";
 
-export default async function MesTicketsPage() {
+async function TicketsContent() {
   const user = await requireUser();
 
   const tickets = await prisma.ticket.findMany({
@@ -42,7 +43,6 @@ export default async function MesTicketsPage() {
           {tickets.map((ticket) => (
             <div key={ticket.id} className="bg-surface border border-border rounded-xl p-6 shadow-card hover:shadow-hover transition-shadow flex flex-col sm:flex-row gap-6">
               
-              {/* Infos à gauche */}
               <div className="flex-1 flex flex-col justify-between">
                 <div>
                   <h2 className="text-lg font-bold text-text-primary mb-1 line-clamp-2">
@@ -75,7 +75,6 @@ export default async function MesTicketsPage() {
                 </div>
               </div>
 
-              {/* QR Code à droite */}
               <div className="flex flex-col items-center justify-center bg-white p-3 rounded-xl border border-border shrink-0">
                 <QRCode 
                   value={ticket.code} 
@@ -91,5 +90,13 @@ export default async function MesTicketsPage() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function MesTicketsPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center">Chargement de vos billets...</div>}>
+      <TicketsContent />
+    </Suspense>
   );
 }
