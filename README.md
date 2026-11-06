@@ -13,7 +13,7 @@ URL : https://ekoloevent-cg.vercel.app
 | BITEMO Gilles Brant | Auth, repo admin | https://github.com/thedev-it |
 | NGASSAI NDONGO Dubien | Feature | https://github.com/dubien321 |
 | INIENGO Alain Justin Ledit | Déploiement | https://github.com/Ghostplayer89 |
-| KONGOLO Salem | Feature | @pseudo |
+| KONGOLO Salem | ABSENT | @pseudo | 
 | MOUNGABIO Christ-Henoc | Rendu & perf | https://github.com/Christ-Moungabio |
 
 ## Comptes de test
@@ -28,10 +28,10 @@ Route protégée : `/dashboard` (redirige vers `/login` si non connecté).
 | Accueil (`/`) | **SSG** | Page vitrine publique qui ne change pas souvent. Générée au build pour être ultra-rapide et optimiser le SEO. |
 | Catalogue (`/evenements`) | **ISR** (revalidate : 60s) | La liste des événements change régulièrement. L'ISR permet d'avoir une page statique ultra-rapide tout en mettant à jour les données en arrière-plan toutes les 60 secondes. |
 | Fiche Événement (`/evenements/[id]`) | **ISR** (revalidate : 60s) | Permet d'afficher les détails et le stock de tickets de manière quasi-instantanée, tout en rafraîchissant les places restantes. |
-| Mes tickets (`/tickets`) | **SSR** | Page privée. Le rendu doit se faire côté serveur à chaque requête pour vérifier la session de l'utilisateur (via cookie) et afficher uniquement ses propres tickets. |
+| Mes tickets (`/mes-tickets`) | **SSR** | Page privée. Le rendu doit se faire côté serveur à chaque requête pour vérifier la session de l'utilisateur (via cookie) et afficher uniquement ses propres tickets. |
 
 ## Audit Lighthouse
-Mobile : Performance 95/100, Accessibility 90/100 (objectif : 80 minimum). Capture : `docs/lighthouse.png`
+Mobile : Performance 92/100, Accessibility 100/100 (objectif : 80 minimum). Capture : `docs/lighthouse.png`
 
 ## Checklist de déploiement
 - [x] Dépôt importé dans Vercel
