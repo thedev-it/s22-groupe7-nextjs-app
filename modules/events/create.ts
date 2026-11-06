@@ -28,7 +28,6 @@ export async function creerEvenement(formData: FormData) {
   const ticketName = formData.get("ticketName") as string || "Standard"
   const ticketPrice = Number(formData.get("ticketPrice"))
   const ticketQuantity = Number(formData.get("ticketQuantity"))
-  const imageUrl = formData.get("imageUrl") as string || null;
   const event = await prisma.event.create({
     data: {
       title,

@@ -27,6 +27,12 @@ async function DashboardContent() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="mb-6">
+        <Link href="/" className="inline-flex items-center text-sm font-medium text-text-secondary hover:text-primary transition-colors">
+          <span className="mr-2">←</span> Retour à l'accueil
+        </Link>
+      </div>
+
       <div className="bg-surface border border-border rounded-xl shadow-card p-6 sm:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -45,7 +51,7 @@ async function DashboardContent() {
               </span>
             </div>
             <p className="text-sm text-text-secondary mt-1">
-              Connecté avec l&apos;adresse{" "}
+              Connecté avec l'adresse{" "}
               <span className="font-medium text-text-primary">{user.email}</span>
             </p>
           </div>

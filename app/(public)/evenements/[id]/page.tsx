@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ButtonLink } from "@/shared/components/button-link";
 import { TicketPanel } from "@/modules/events/components/ticket-panel";
+import { BoutonAchat } from "@/modules/events/components/bouton-achat";
 import {
   categoryColors,
   cityLabels,
@@ -112,7 +113,15 @@ async function EventDetails({ params }: { params: Promise<{ id: string }> }) {
           </ul>
         </article>
 
-        <TicketPanel date={date} ticketTypes={event.ticketTypes} />
+        <TicketPanel date={date} ticketTypes={event.ticketTypes}>
+          {event.ticketTypes[0] && (
+            <BoutonAchat 
+              eventId={event.id} 
+              ticketTypeId={event.ticketTypes[0].id} 
+              price={event.ticketTypes[0].price} 
+            />
+          )}
+        </TicketPanel>
       </div>
 
       {minPrice !== undefined && (
