@@ -18,7 +18,7 @@ export async function generateStaticParams() {
   return ids.map((id) => ({ id }));
 }
 
-async function EventDetails({ params }: { params: PageProps<"/evenements/[id]">["params"] }) {
+async function EventDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const event = await getEventById(id);
   if (!event) notFound();
@@ -59,8 +59,8 @@ async function EventDetails({ params }: { params: PageProps<"/evenements/[id]">[
       <div className="mt-5 flex flex-col gap-7 lg:mt-7 lg:flex-row lg:items-start lg:gap-14">
         <article className="min-w-0 flex-1">
           <div
-            className={`relative flex aspect-video items-end overflow-hidden rounded-lg p-5.5 lg:p-10 ${categoryColors[event.category.slug] ?? defaultCategoryColor}`}
-          >
+    className={`relative flex aspect-video min-h-[300px] items-end overflow-hidden rounded-xl p-8 lg:p-12 ${categoryColors[event.category.slug] ?? defaultCategoryColor}`}
+  >
             {event.imageUrl ? (
               <Image
                 src={event.imageUrl}
@@ -145,9 +145,9 @@ function EventSkeleton() {
   );
 }
 
-export default function EventPage({ params }: PageProps<"/evenements/[id]">) {
+export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
   return (
-    <div className="mx-auto max-w-content px-4 pt-5 pb-28 md:px-8 lg:pt-8 lg:pb-24">
+    <div className="mx-auto max-w-content px-6 pt-8 pb-28 md:px-10 lg:pt-12 lg:pb-24">
       <Suspense fallback={<EventSkeleton />}>
         <EventDetails params={params} />
       </Suspense>
